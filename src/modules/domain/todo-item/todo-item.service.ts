@@ -78,7 +78,8 @@ export class TodoItemService {
       relations: ['createdBy'],
     });
     if (todoItem.createdBy.id !== user.id) throw new ForbiddenException();
-    if (updateTodoItemDto.categoryId) todoItem.category = { id: updateTodoItemDto.categoryId } as Category;
+    if (updateTodoItemDto.categoryId)
+      todoItem.category = { id: updateTodoItemDto.categoryId } as Category;
     await this.todoItemsRepository.update(id, updateTodoItemDto);
     todoItem = await this.todoItemsRepository.findOneBy({ id: id });
 
