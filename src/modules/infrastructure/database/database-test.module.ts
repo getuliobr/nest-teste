@@ -1,3 +1,4 @@
+import { Category } from './../../domain/category/entities/category.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TodoItem } from 'src/modules/domain/todo-item/entities/todo-item.entity';
@@ -9,7 +10,7 @@ import { User } from '../user/entities/user.entity';
       type: 'sqlite',
       database: ':memory:',
       logging: false,
-      entities: [User, TodoItem],
+      entities: [User, TodoItem, Category],
       synchronize: true,
     }),
   ],
