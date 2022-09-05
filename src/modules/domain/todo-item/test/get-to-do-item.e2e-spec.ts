@@ -1,3 +1,4 @@
+import { CategoryModule } from './../../category/category.module';
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { AuthModule } from 'src/modules/infrastructure/auth/auth.module';
@@ -10,10 +11,11 @@ let appRequest: request.SuperTest<request.Test>;
 let token1: string;
 let token2: string;
 let toDoItem: string;
+let categoryId: string;
 
 beforeAll(async () => {
   const module = await Test.createTestingModule({
-    imports: [DatabaseTestModule, AuthModule, TodoItemModule],
+    imports: [DatabaseTestModule, AuthModule, TodoItemModule, CategoryModule],
   }).compile();
   app = module.createNestApplication();
   await app.init();
@@ -50,11 +52,22 @@ beforeAll(async () => {
 
   token2 = login2.text;
 
+  const postCategory1 = await appRequest
+    .post('/category/create')
+    .set('Authorization', `Bearer ${token1}`)
+    .send({
+      name: 'Category 1',
+    })
+    .expect(201);
+
+  categoryId = postCategory1.body.id;
+
   const createToDoItem = await appRequest
     .post('/todo-item/create')
     .send({
       title: 'test',
       description: 'test',
+      categoryId,
     })
     .set('Authorization', `Bearer ${token1}`)
     .expect(201);
