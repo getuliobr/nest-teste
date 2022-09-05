@@ -1,3 +1,4 @@
+import { CategoryModule } from './../modules/domain/category/category.module';
 import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TodoItemModule } from 'src/modules/domain/todo-item/todo-item.module';
@@ -7,7 +8,13 @@ import { UserModule } from 'src/modules/infrastructure/user/user.module';
 import { AppController } from './app.controller';
 
 @Module({
-  imports: [UserModule, AuthModule, TodoItemModule, DatabaseModule],
+  imports: [
+    UserModule,
+    AuthModule,
+    TodoItemModule,
+    CategoryModule,
+    DatabaseModule,
+  ],
   controllers: [AppController],
   providers: [
     {
